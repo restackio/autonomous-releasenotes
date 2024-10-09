@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es6", // Specify ECMAScript target version
+    "module": "Node16", // Specify module code generation
+    "moduleResolution": "Node16",
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "outDir": "./dist", // Redirect output structure to the directory
+    "rootDir": "./src",
+    "declaration": true, // Specify the root directory of input files
+    "declarationDir": "./dist",
+    "declarationMap": true
+  },
+  "include": ["src/**/*"], // Include all files in the src directory and subdirectories
+  "exclude": ["node_modules"]
+}
