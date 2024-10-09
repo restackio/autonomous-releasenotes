@@ -14,6 +14,7 @@
   "description": "",
   "dependencies": {
     "@octokit/auth-token": "^5.1.1",
+    "@restackio/ai": "^0.0.75",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "octokit": "^4.0.2"
