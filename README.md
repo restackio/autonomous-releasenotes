@@ -1,4 +1,4 @@
-# Pull Request Analyzer Backend
+# Create repository releases
 
 This folder contains an Express server implemented in TypeScript that showcases the usage of the Restack AI SDK with GitHub integration.
 
