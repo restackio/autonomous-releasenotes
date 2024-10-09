@@ -4,13 +4,12 @@ This folder contains an Express server implemented in TypeScript that showcases 
 
 ## Overview
 
-The backend server is designed to analyze pull requests from GitHub repositories using the Restack AI SDK. It provides an API endpoint that accepts GitHub repository URLs and pull request numbers, processes the data, and returns insightful analysis results.
+The backend server is designed to create releases on a provided GitHub repository using the Restack AI SDK. It provides an API endpoint that accepts the necessary data to create a release: tagname, repository url, release name and release description
 
 ## Features
 
 - Express server setup with TypeScript
-- GitHub integration for fetching pull request data
-- Restack AI SDK implementation for pull request analysis
+- GitHub integration for creating releases
 - Environment variable configuration for secure token management
 
 ## Setup
@@ -38,15 +37,18 @@ The backend server is designed to analyze pull requests from GitHub repositories
 
 ## API Endpoint
 
-- `POST /analyze-pr`
+- `POST /release`
   - Request body:
     ```json
     {
-      "repoUrl": "https://github.com/username/repo",
-      "prNumber": 123
+      "owner": "username",
+      "repo": "repo",
+      "tagName": "v1.0.0",
+      "releaseName": "Release 1.0.0",
+      "releaseBody": "Description of the release",
     }
     ```
-  - Response: Analysis results from the Restack AI SDK
+  - Response: JSON object with a message confirming successful release creation
 
 ## Docker Support
 
