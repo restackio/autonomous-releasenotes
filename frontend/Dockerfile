@@ -1,8 +1,8 @@
-# Use the official Node.js 20 image as a base
-FROM node:20
+# Use the official Node.js LTS image as the base image
+FROM node:lts-alpine
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -13,10 +13,13 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+ARG NEXT_PUBLIC_API_HOSTNAME
+ENV NEXT_PUBLIC_API_HOSTNAME=${NEXT_PUBLIC_API_HOSTNAME}
+
 RUN npm run build
 
 # Expose the port the app runs on
-EXPOSE 80
+EXPOSE 3000
 
-# Command to run the application
-CMD ["node", "dist/index.js"]
+# Start the application
+CMD ["npm", "start"]
