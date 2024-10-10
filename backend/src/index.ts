@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+import { services } from './services.js';
+
 dotenv.config();
 
 const app = express();
@@ -10,7 +12,7 @@ const PORT = process.env.PORT || 80;
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cors());
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
     res.send('Hello World! The server is running.');
 });
 
@@ -34,5 +36,8 @@ app.get('/releases/:owner/:repo', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
+    services().catch((err) => {
+        console.error("Error in services:", err);
+    });
     console.log(`Server is running on port ${PORT}`);
 });

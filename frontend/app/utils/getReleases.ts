@@ -1,10 +1,6 @@
 import { extractOwnerAndRepo } from './extractOwnerRepo';
 
-export async function getReleases({
-  repoUrl,
-}: {
-  repoUrl: string;
-}) {
+export async function getReleases(repoUrl: string) {
   const ownerAndRepo = extractOwnerAndRepo(repoUrl);
 
   if (!ownerAndRepo) {
