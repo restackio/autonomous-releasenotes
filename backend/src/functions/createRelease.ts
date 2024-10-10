@@ -25,8 +25,8 @@ export async function createRelease(
       tag_name: tagName,
       name: releaseName,
       body: releaseBody,
-      draft: false,
-      prerelease: false,
+      draft: true,
+      prerelease: true,
       generate_release_notes: true,
       ...(branch && { target_commitish: branch }),
     });
