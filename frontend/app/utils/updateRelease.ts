@@ -1,4 +1,4 @@
-export async function updateRelease(releaseId: string) {
+export async function updateRelease(releaseId: number) {
 
   const response = await fetch(`http://localhost:80/release/${releaseId}`, {
     method: 'PUT',
