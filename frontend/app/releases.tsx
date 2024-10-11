@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getReleases } from './utils/getReleases';
+import { useEffect, useState } from "react";
+
+import { getReleases } from "./utils/getReleases";
 
 export async function Releases() {
   const [releases, setReleases] = useState<[]>([]);
@@ -10,7 +12,9 @@ export async function Releases() {
   useEffect(() => {
     const getGithubReleases = async () => {
       try {
-        const releases = await getReleases('https://github.com/restackio/cloud-sdk-ts');
+        const releases = await getReleases(
+          "https://github.com/restackio/cloud-sdk-ts"
+        );
         setReleases(releases);
       } catch (error) {
         setError(error as Error);
@@ -18,7 +22,7 @@ export async function Releases() {
         setLoading(false);
       }
     };
-   void getGithubReleases()
+    void getGithubReleases();
   }, []);
 
   if (loading) return <div>Loading...</div>;
@@ -28,7 +32,7 @@ export async function Releases() {
     <div>
       <h1>Releases</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {releases.map((release) => (
+        {releases.map((release: any) => (
           <div key={release.id} className="bg-white shadow-md rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">{release.name}</h2>
             <p className="text-sm text-gray-600">Tag: {release.tag_name}</p>
