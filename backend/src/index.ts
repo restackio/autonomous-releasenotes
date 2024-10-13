@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { services } from './services.js';
+import { client } from './client.js';
+import { taskQueue } from './taskqueue.js';
 
 dotenv.config();
 
@@ -28,10 +30,21 @@ app.put('/release/:id', (req, res) => {
   res.json({ message: 'Release updated successfully' });
 });
 
-app.get('/releases/:owner/:repo', (req, res) => {
+app.get('/releases/:owner/:repo', async (req, res) => {
   const { owner, repo } = req.params;
-  console.log('data', owner, repo);
-  res.json({ message: 'Releases fetched successfully' });
+
+  const workflowId = `${Date.now()}-getReleases`;
+
+  const runId = await client.scheduleWorkflow({
+    workflowName: 'getReleasesWorkflow',
+    workflowId,
+    input: { owner, repo },
+    taskQueue,
+  });
+
+  const result = await client.getWorkflowResult({ workflowId, runId });
+
+  res.json({ releases: result });
 });
 
 // Start the server

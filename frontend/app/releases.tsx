@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { getReleases } from "./utils/getReleases";
 
-export async function Releases() {
+export function Releases() {
   const [releases, setReleases] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -22,11 +22,13 @@ export async function Releases() {
         setLoading(false);
       }
     };
-    void getGithubReleases();
+    getGithubReleases();
   }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
+
+  console.log("releases", releases);
 
   return (
     <div>

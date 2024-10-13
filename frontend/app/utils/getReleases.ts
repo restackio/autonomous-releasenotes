@@ -10,7 +10,7 @@ export async function getReleases(repoUrl: string) {
   const { owner, repo } = ownerAndRepo;
 
   const response = await fetch(
-    `http://localhost:80/releases/${owner}/${repo}`,
+    `http://localhost:8000/releases/${owner}/${repo}`,
     {
       method: "GET",
       headers: {
@@ -24,5 +24,6 @@ export async function getReleases(repoUrl: string) {
   }
 
   const data = await response.json();
-  return data;
+
+  return data.releases;
 }
