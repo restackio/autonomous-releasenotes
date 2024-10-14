@@ -41,16 +41,17 @@ app.post('/release', async (req, res) => {
   res.json({ release });
 });
 
-app.put('/release/:owner/:repo/:id', async (req, res) => {
+app.put('/publish/:owner/:repo/:id', async (req, res) => {
   const { id, owner, repo } = req.params;
+
   const publishedRelease = await client.sendWorkflowEvent({
     event: {
       name: publishReleaseEvent.name,
       input: { id, owner, repo },
     },
     workflow: {
-      workflowId: id,
-      runId: id,
+      workflowId: handleReleaseWorkflowId,
+      runId,
     },
   });
 
@@ -80,16 +81,15 @@ app.listen(PORT, async () => {
     console.error('Error in services:', err);
   });
 
-  runId = await client.scheduleWorkflow({
-    workflowName: 'handleReleaseWorkflow',
-    workflowId: handleReleaseWorkflowId,
-    taskQueue,
-  });
-  console.log(
-    'runid',
-    runId,
-    'handleReleaseWorkflowId',
-    handleReleaseWorkflowId,
-  );
+  try {
+    runId = await client.scheduleWorkflow({
+      workflowName: 'handleReleaseWorkflow',
+      workflowId: handleReleaseWorkflowId,
+      taskQueue,
+    });
+  } catch (error) {
+    console.error('Error in scheduleWorkflow:', error);
+  }
+
   console.log(`Server is running on port ${PORT}`);
 });

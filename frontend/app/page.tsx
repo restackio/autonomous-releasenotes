@@ -1,9 +1,19 @@
 "use client";
 
+import React, { useState } from "react";
 import { createRelease } from "./utils/createRelease";
 import { Releases } from "./releases";
+import { getReleases } from "./utils/getReleases";
 
 export default function Home() {
+  const [gitUrl, setGitUrl] = useState("");
+  const [releases, setReleases] = useState([]);
+
+  const getGithubReleases = async () => {
+    const releases = await getReleases(gitUrl);
+    setReleases(releases);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -18,7 +28,10 @@ export default function Home() {
       releaseBody,
       repoUrl,
     });
+
+    await getGithubReleases();
   };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -29,6 +42,7 @@ export default function Home() {
             placeholder="GitHub Repository URL"
             className="border rounded p-2"
             required
+            onChange={(e) => setGitUrl(e.target.value)}
             name="repoUrl"
           />
           <input
@@ -40,7 +54,7 @@ export default function Home() {
           />
           <input
             type="text"
-            placeholder="Release tag name"
+            placeholder="v1.0.0"
             className="border rounded p-2"
             required
             name="tagName"
@@ -51,11 +65,23 @@ export default function Home() {
             required
             name="releaseBody"
           />
-          <button type="submit" className="bg-blue-500 text-white rounded p-2">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded p-2"
+            disabled={!gitUrl}
+          >
             Create Release
           </button>
+          <button
+            type="button"
+            className="bg-green-500 text-white rounded p-2 mt-2"
+            disabled={!gitUrl}
+            onClick={() => getGithubReleases()}
+          >
+            Get Releases
+          </button>
         </form>
-        <Releases />
+        <Releases releases={releases} gitUrl={gitUrl} />
       </main>
     </div>
   );

@@ -1,38 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { publishRelease } from "./utils/publishRelease";
 
-import { useEffect, useState } from "react";
+type Release = {
+  id: string;
+  name: string;
+  draft: boolean;
+  tag_name: string;
+  published_at: string;
+  html_url: string;
+};
 
-import { getReleases } from "./utils/getReleases";
-
-export function Releases() {
-  const [releases, setReleases] = useState<[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const getGithubReleases = async () => {
-      try {
-        const releases = await getReleases(
-          "https://github.com/restackio/cloud-sdk-ts"
-        );
-        setReleases(releases);
-      } catch (error) {
-        setError(error as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getGithubReleases();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
+export function Releases({
+  releases,
+  gitUrl,
+}: {
+  releases: Release[];
+  gitUrl: string;
+}) {
   return (
     <div>
-      <h1>Releases</h1>
+      <h1>Current Releases</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {releases.map((release: any) => (
+        {releases.map((release: Release) => (
           <div key={release.id} className="bg-white shadow-md rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">{release.name}</h2>
             <h2 className="text-lg font-semibold mb-2">
@@ -53,6 +41,14 @@ export function Releases() {
             >
               View Release
             </a>
+            {release.draft && (
+              <button
+                onClick={() => publishRelease(release.id, gitUrl)}
+                className="mt-2 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+              >
+                Publish Release
+              </button>
+            )}
           </div>
         ))}
       </div>
