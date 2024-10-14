@@ -46,7 +46,7 @@ app.put('/release/:owner/:repo/:id', async (req, res) => {
   const publishedRelease = await client.sendWorkflowEvent({
     event: {
       name: publishReleaseEvent.name,
-      input: { releaseId: id, owner, repo },
+      input: { id, owner, repo },
     },
     workflow: {
       workflowId: id,

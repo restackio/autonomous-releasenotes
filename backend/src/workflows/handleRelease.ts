@@ -17,10 +17,10 @@ export async function handleReleaseWorkflow() {
 
   onEvent(
     publishReleaseEvent,
-    async ({ releaseId, owner, repo }: PublishReleaseEventInput) => {
+    async ({ id, owner, repo }: PublishReleaseEventInput) => {
       const release = await step<typeof functions>({
         taskQueue: 'github',
-      }).publishRelease({ owner, repo, releaseId });
+      }).publishRelease({ owner, repo, id });
 
       return release;
     },

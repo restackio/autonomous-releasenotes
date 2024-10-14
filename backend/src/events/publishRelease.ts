@@ -6,10 +6,11 @@ export type PublishReleaseEvent = {
   draft: boolean;
   published_at: string | null;
   html_url: string;
+  id: number;
 };
 
 export type PublishReleaseEventInput = {
-  releaseId: number;
+  id: number;
   owner: string;
   repo: string;
 };

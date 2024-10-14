@@ -35,6 +35,7 @@ export async function createRelease({
       draft: data.draft,
       published_at: data.published_at,
       html_url: data.html_url,
+      id: data.id,
     };
   } catch (error) {
     throw new Error(`Error while creating release: ${error}`);

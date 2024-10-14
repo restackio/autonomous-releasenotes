@@ -15,6 +15,7 @@ export type CreateReleaseEvent = {
   draft: boolean;
   published_at: string | null;
   html_url: string;
+  id: number;
 };
 
 export const createReleaseEvent =

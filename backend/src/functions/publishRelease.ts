@@ -3,18 +3,18 @@ import { githubClient } from '../utils/githubClient.js';
 export async function publishRelease({
   owner,
   repo,
-  releaseId,
+  id,
 }: {
   owner: string;
   repo: string;
-  releaseId: number;
+  id: number;
 }) {
   try {
     const { octokit } = await githubClient();
     const { data } = await octokit.rest.repos.updateRelease({
       owner,
       repo,
-      release_id: releaseId,
+      release_id: id,
       draft: false,
     });
 
@@ -24,6 +24,7 @@ export async function publishRelease({
       draft: data.draft,
       published_at: data.published_at,
       html_url: data.html_url,
+      id: data.id,
     };
   } catch (error) {
     throw new Error(`Error while updating release: ${error}`);
