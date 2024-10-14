@@ -37,34 +37,44 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-2xl font-bold mb-4">Create Release</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8">
-          <input
-            type="text"
-            placeholder="GitHub Repository URL"
-            className="border rounded p-2"
-            required
-            onChange={(e) => setGitUrl(e.target.value)}
-            name="repoUrl"
-          />
-          <input
-            type="text"
-            placeholder="Release name"
-            className="border rounded p-2"
-            required
-            name="releaseName"
-          />
-          <input
-            type="text"
-            placeholder="v1.0.0"
-            className="border rounded p-2"
-            required
-            name="tagName"
-          />
-          <textarea
-            placeholder="Description"
-            className="border rounded p-2"
-            required
-            name="releaseBody"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <input
+                type="text"
+                placeholder="GitHub Repository URL"
+                className="border rounded p-2 w-full"
+                required
+                onChange={(e) => setGitUrl(e.target.value)}
+                name="repoUrl"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Release name"
+                className="border rounded p-2 w-full"
+                required
+                name="releaseName"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="v1.0.0"
+                className="border rounded p-2 w-full"
+                required
+                name="tagName"
+              />
+            </div>
+            <div>
+              <textarea
+                placeholder="Description"
+                className="border rounded p-2 w-full"
+                required
+                name="releaseBody"
+              />
+            </div>
+          </div>
           <button
             type="submit"
             className="bg-blue-500 text-white rounded p-2"
@@ -81,7 +91,9 @@ export default function Home() {
             Get Releases
           </button>
         </form>
-        <Releases releases={releases} gitUrl={gitUrl} />
+        {releases.length > 0 && (
+          <Releases releases={releases} gitUrl={gitUrl} />
+        )}
       </main>
     </div>
   );
