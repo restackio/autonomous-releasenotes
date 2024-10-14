@@ -12,7 +12,7 @@ export async function publishRelease(id: string, repoUrl: string) {
   const response = await fetch(
     `http://localhost:8000/publish/${owner}/${repo}/${id}`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
