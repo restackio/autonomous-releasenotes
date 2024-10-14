@@ -28,8 +28,6 @@ export function Releases() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  console.log("releases", releases);
-
   return (
     <div>
       <h1>Releases</h1>
@@ -37,9 +35,15 @@ export function Releases() {
         {releases.map((release: any) => (
           <div key={release.id} className="bg-white shadow-md rounded-lg p-4">
             <h2 className="text-lg font-semibold mb-2">{release.name}</h2>
-            <p className="text-sm text-gray-600">Tag: {release.tag_name}</p>
+            <h2 className="text-lg font-semibold mb-2">
+              {release.draft ? "Draft" : "Published"}
+            </h2>
+            <p className="text-sm text-gray-600">
+              <strong>Tag:</strong> {release.tag_name}
+            </p>
             <p className="text-sm text-gray-600 mt-2">
-              Published: {new Date(release.published_at).toLocaleDateString()}
+              <strong>Published:</strong>{" "}
+              {new Date(release.published_at).toLocaleDateString()}
             </p>
             <a
               href={release.html_url}

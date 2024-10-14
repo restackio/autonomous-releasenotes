@@ -18,10 +18,20 @@ app.get('/', (_, res) => {
   res.send('Hello World! The server is running.');
 });
 
-app.post('/release', (req, res) => {
+app.post('/release', async (req, res) => {
   const data = req.body;
-  console.log('data', data);
-  res.json({ message: 'Release created successfully' });
+  const workflowId = `${Date.now()}-createRelease`;
+
+  const runId = await client.scheduleWorkflow({
+    workflowName: 'createReleaseWorkflow',
+    workflowId,
+    input: { ...data },
+    taskQueue,
+  });
+
+  const result = await client.getWorkflowResult({ workflowId, runId });
+
+  res.json({ release: result });
 });
 
 app.put('/release/:id', (req, res) => {

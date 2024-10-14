@@ -19,7 +19,7 @@ export async function createRelease({
 
   const { owner, repo } = ownerAndRepo;
 
-  const response = await fetch("http://localhost:80/release", {
+  const response = await fetch("http://localhost:8000/release", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
