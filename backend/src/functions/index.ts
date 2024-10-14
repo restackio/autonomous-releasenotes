@@ -1,3 +1,4 @@
 export * from './createRelease.js';
 export * from './getReleases.js';
-export * from './updateRelease.js';
+export * from './publishRelease.js';
+export * from './sendEventToWorkflow.js';

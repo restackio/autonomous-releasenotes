@@ -1,22 +1,20 @@
 import { githubClient } from '../utils/githubClient.js';
 
-export async function createRelease(
-  {
-    owner,
-    repo,
-    tagName,
-    releaseName,
-    releaseBody,
-    branch,
-  }: {
-    owner: string;
-    repo: string;
-    tagName: string;
-    releaseName: string;
-    releaseBody: string;
-    branch?: string;
-  }
-) {
+export async function createRelease({
+  owner,
+  repo,
+  tagName,
+  releaseName,
+  releaseBody,
+  branch,
+}: {
+  owner: string;
+  repo: string;
+  tagName: string;
+  releaseName: string;
+  releaseBody: string;
+  branch?: string;
+}) {
   try {
     const { octokit } = await githubClient();
     const { data } = await octokit.rest.repos.createRelease({
@@ -26,13 +24,18 @@ export async function createRelease(
       name: releaseName,
       body: releaseBody,
       draft: true,
-      prerelease: true,
+      prerelease: false,
       generate_release_notes: true,
       ...(branch && { target_commitish: branch }),
     });
-    
-    return data;
-    
+
+    return {
+      name: data.name,
+      tag_name: data.tag_name,
+      draft: data.draft,
+      published_at: data.published_at,
+      html_url: data.html_url,
+    };
   } catch (error) {
     throw new Error(`Error while creating release: ${error}`);
   }

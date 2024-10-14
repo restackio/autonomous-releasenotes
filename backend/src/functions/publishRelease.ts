@@ -1,6 +1,6 @@
 import { githubClient } from '../utils/githubClient.js';
 
-export async function updateRelease({
+export async function publishRelease({
   owner,
   repo,
   releaseId,
@@ -16,10 +16,15 @@ export async function updateRelease({
       repo,
       release_id: releaseId,
       draft: false,
-      prerelease: false,
     });
 
-    return data;
+    return {
+      name: data.name,
+      tag_name: data.tag_name,
+      draft: data.draft,
+      published_at: data.published_at,
+      html_url: data.html_url,
+    };
   } catch (error) {
     throw new Error(`Error while updating release: ${error}`);
   }

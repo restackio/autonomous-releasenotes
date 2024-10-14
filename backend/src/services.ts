@@ -3,8 +3,9 @@ import { dirname, resolve } from 'path';
 
 import {
   createRelease,
-  updateRelease,
+  publishRelease,
   getReleases,
+  workflowSendEvent,
 } from './functions/index.js';
 
 import { client } from './client.js';
@@ -20,7 +21,12 @@ export async function services() {
       client.startService({
         workflowsPath,
         taskQueue: 'github',
-        functions: { createRelease, updateRelease, getReleases },
+        functions: {
+          createRelease,
+          publishRelease,
+          getReleases,
+          workflowSendEvent,
+        },
       }),
     ]);
 

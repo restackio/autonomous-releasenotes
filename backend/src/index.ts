@@ -6,6 +6,9 @@ import { services } from './services.js';
 import { client } from './client.js';
 import { taskQueue } from './taskqueue.js';
 
+import { publishReleaseEvent } from './events/publishRelease.js';
+import { createReleaseEvent } from './events/createRelease.js';
+
 dotenv.config();
 
 const app = express();
@@ -18,26 +21,40 @@ app.get('/', (_, res) => {
   res.send('Hello World! The server is running.');
 });
 
+let handleReleaseWorkflowId: string = 'handleRelease';
+let runId: string = '';
+
 app.post('/release', async (req, res) => {
   const data = req.body;
-  const workflowId = `${Date.now()}-createRelease`;
 
-  const runId = await client.scheduleWorkflow({
-    workflowName: 'createReleaseWorkflow',
-    workflowId,
-    input: { ...data },
-    taskQueue,
+  const release = await client.sendWorkflowEvent({
+    event: {
+      name: createReleaseEvent.name,
+      input: { ...data },
+    },
+    workflow: {
+      workflowId: handleReleaseWorkflowId,
+      runId,
+    },
   });
 
-  const result = await client.getWorkflowResult({ workflowId, runId });
-
-  res.json({ release: result });
+  res.json({ release });
 });
 
-app.put('/release/:id', (req, res) => {
-  const data = req.body;
-  console.log('data', data);
-  res.json({ message: 'Release updated successfully' });
+app.put('/release/:owner/:repo/:id', async (req, res) => {
+  const { id, owner, repo } = req.params;
+  const publishedRelease = await client.sendWorkflowEvent({
+    event: {
+      name: publishReleaseEvent.name,
+      input: { releaseId: id, owner, repo },
+    },
+    workflow: {
+      workflowId: id,
+      runId: id,
+    },
+  });
+
+  res.json({ release: publishedRelease });
 });
 
 app.get('/releases/:owner/:repo', async (req, res) => {
@@ -58,9 +75,21 @@ app.get('/releases/:owner/:repo', async (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   services().catch((err) => {
     console.error('Error in services:', err);
   });
+
+  runId = await client.scheduleWorkflow({
+    workflowName: 'handleReleaseWorkflow',
+    workflowId: handleReleaseWorkflowId,
+    taskQueue,
+  });
+  console.log(
+    'runid',
+    runId,
+    'handleReleaseWorkflowId',
+    handleReleaseWorkflowId,
+  );
   console.log(`Server is running on port ${PORT}`);
 });

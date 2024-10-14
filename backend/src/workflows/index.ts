@@ -1,2 +1,2 @@
+export * from './handleRelease.js';
 export * from './getReleases.js';
-export * from './createRelease.js';
