@@ -26,9 +26,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-gray-50`}
       >
-        {children}
+        <main className="flex-grow">{children}</main>
+        <footer className="py-4 text-center text-sm text-gray-600 sticky bottom-0 bg-gray-50">
+          Created with love with Restack AI Sdk
+        </footer>
       </body>
     </html>
   );
