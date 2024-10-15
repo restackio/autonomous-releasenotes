@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-gray-50`}
       >
         <main className="flex-grow">{children}</main>
-        <footer className="py-4 text-center text-sm text-gray-600 sticky bottom-0 bg-gray-50">
+        <footer className="py-4 dark:bg-gray-900 text-black dark:text-white text-center text-sm text-gray-600 sticky bottom-0 bg-gray-50">
           Created with love with Restack AI Sdk
         </footer>
       </body>

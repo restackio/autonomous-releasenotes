@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col items-center justify-center min-h-screen font-[family-name:var(--font-geist-sans)] bg-white dark:bg-gray-900 text-black dark:text-white">
       <main className="flex flex-col gap-8 items-center sm:items-start">
         <h1 className="text-2xl font-bold mb-4">Create Github Release</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8">
@@ -42,7 +42,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="GitHub Repository URL"
-                className="border rounded p-2 w-full"
+                className="border rounded p-2 w-full bg-white dark:bg-gray-800 text-black dark:text-white"
                 required
                 onChange={(e) => setGitUrl(e.target.value)}
                 name="repoUrl"
@@ -52,7 +52,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="Release name"
-                className="border rounded p-2 w-full"
+                className="border rounded p-2 w-full bg-white dark:bg-gray-800 text-black dark:text-white"
                 required
                 name="releaseName"
               />
@@ -61,7 +61,7 @@ export default function Home() {
               <input
                 type="text"
                 placeholder="v1.0.0"
-                className="border rounded p-2 w-full"
+                className="border rounded p-2 w-full bg-white dark:bg-gray-800 text-black dark:text-white"
                 required
                 name="tagName"
               />
@@ -69,7 +69,7 @@ export default function Home() {
             <div>
               <textarea
                 placeholder="Description"
-                className="border rounded p-2 w-full"
+                className="border rounded p-2 w-full bg-white dark:bg-gray-800 text-black dark:text-white"
                 required
                 name="releaseBody"
               />
