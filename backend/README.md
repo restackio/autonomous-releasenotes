@@ -13,6 +13,7 @@ Once the express server is booted the workflow `handleReleaseWorkflow` will be s
 - Express server setup with TypeScript
 - GitHub integration for creating releases
 - Environment variable configuration for secure token management
+- A long running workflow that will listen to events to either: create or publish a release on provided github repository
 
 ## Setup
 
@@ -35,25 +36,47 @@ Once the express server is booted the workflow `handleReleaseWorkflow` will be s
    npm run build
    ```
 
-4. Start the server:
+4. Start Restack AI:
+
+   ```
+   docker run -d --pull always --name studio -p 5233:5233 -p 6233:6233 -p 7233:7233 ghcr.io/restackio/engine:main
+   ```
+
+5. Start the server:
    ```
    npm start
    ```
 
-## API Endpoint
+## API Endpoints
 
-- `POST /release`
-  - Request body:
-    ```json
-    {
-      "owner": "username",
-      "repo": "repo",
-      "tagName": "v1.0.0",
-      "releaseName": "Release 1.0.0",
-      "releaseBody": "Description of the release"
-    }
-    ```
-  - Response: JSON object with a message confirming successful release creation
+### `POST /release`
+
+- **Request body:**
+  ```json
+  {
+    "owner": "username",
+    "repo": "repo",
+    "tagName": "v1.0.0",
+    "releaseName": "Release 1.0.0",
+    "releaseBody": "Description of the release"
+  }
+  ```
+- **Response:** JSON object with a message confirming successful release creation.
+
+### `PUT /publish/:owner/:repo/:id`
+
+- **Path parameters:**
+  - `owner`: GitHub username or organization name.
+  - `repo`: Repository name.
+  - `id`: Release ID to be published.
+- **Response:** JSON object with a message confirming successful release publication.
+
+### `GET /releases/:owner/:repo`
+
+- **Path parameters:**
+  - `owner`: GitHub username or organization name.
+  - `repo`: Repository name.
+- **Response:** JSON object containing a list of releases for the specified repository.
 
 ## Docker Support
 
