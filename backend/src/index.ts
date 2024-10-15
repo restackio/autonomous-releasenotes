@@ -77,6 +77,8 @@ app.get('/releases/:owner/:repo', async (req, res) => {
 
 // Start the server
 app.listen(PORT, async () => {
+  console.log(`Server is running on port ${PORT}`);
+
   services().catch((err) => {
     console.error('Error in services:', err);
   });
@@ -90,6 +92,4 @@ app.listen(PORT, async () => {
   } catch (error) {
     console.error('Error in scheduleWorkflow:', error);
   }
-
-  console.log(`Server is running on port ${PORT}`);
 });

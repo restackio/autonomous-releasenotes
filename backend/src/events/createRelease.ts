@@ -10,10 +10,10 @@ export type CreateReleaseEventInput = {
 };
 
 export type CreateReleaseEvent = {
-  name: string | null;
+  name: string;
   tag_name: string;
   draft: boolean;
-  published_at: string | null;
+  published_at: string;
   html_url: string;
   id: number;
 };

@@ -1,7 +1,8 @@
 import { condition, step } from '@restackio/ai/workflow';
 import { onEvent } from '@restackio/ai/event';
+import * as githubFunctions from '@restackio/integrations-github/functions';
+import { githubTaskQueue } from '@restackio/integrations-github/taskQueue';
 
-import * as functions from '../functions/index.js';
 import {
   publishReleaseEvent,
   PublishReleaseEventInput,
@@ -18,8 +19,8 @@ export async function handleReleaseWorkflow() {
   onEvent(
     publishReleaseEvent,
     async ({ id, owner, repo }: PublishReleaseEventInput) => {
-      const release = await step<typeof functions>({
-        taskQueue: 'github',
+      const release = await step<typeof githubFunctions>({
+        taskQueue: githubTaskQueue,
       }).publishRelease({ owner, repo, id });
 
       return release;
@@ -36,8 +37,8 @@ export async function handleReleaseWorkflow() {
       releaseBody,
       branch,
     }: CreateReleaseEventInput) => {
-      const release = await step<typeof functions>({
-        taskQueue: 'github',
+      const release = await step<typeof githubFunctions>({
+        taskQueue: githubTaskQueue,
       }).createRelease({
         owner,
         repo,
