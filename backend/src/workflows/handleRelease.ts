@@ -83,6 +83,18 @@ export async function handleReleaseWorkflow() {
           tagName = aiTagName.tagName;
         }
       }
+
+      const release = await step<typeof githubFunctions>({
+        taskQueue: githubTaskQueue,
+      }).createRelease({
+        owner,
+        repo,
+        tagName,
+        releaseName: `Release ${tagName}`,
+        branch,
+      });
+
+      log.info('Release created', { releaseUrl: release.html_url });
     },
   );
 
