@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "stage-2": "smee -u https://smee.io/lpjo7j2qG8GbnZq -t http://localhost:8000/webhook"
   },
   "type": "module",
   "author": "",
@@ -14,11 +15,15 @@
   "dependencies": {
     "@octokit/auth-token": "^5.1.1",
     "@restackio/ai": "^0.0.75",
-    "@restackio/integrations-github": "^1.0.1",
+    "@restackio/integrations-github": "^1.1.0",
+    "@restackio/integrations-openai": "^0.0.24",
+    "@restackio/restack-sdk-ts": "^0.0.74",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "octokit": "^4.0.2"
+    "octokit": "^4.0.2",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

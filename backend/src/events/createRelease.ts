@@ -1,12 +1,9 @@
 import { defineEvent } from '@restackio/ai/event';
 
 export type CreateReleaseEventInput = {
-  owner: string;
-  repo: string;
-  tagName: string;
-  releaseName: string;
-  releaseBody: string;
-  branch?: string;
+  repository: string;
+  branch: string;
+  defaultBranch: string;
 };
 
 export type CreateReleaseEvent = {
@@ -18,5 +15,4 @@ export type CreateReleaseEvent = {
   id: number;
 };
 
-export const createReleaseEvent =
-  defineEvent<CreateReleaseEvent>('createRelease');
+export const createReleaseEvent = defineEvent('createRelease');

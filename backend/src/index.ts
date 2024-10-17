@@ -75,6 +75,28 @@ app.get('/releases/:owner/:repo', async (req, res) => {
   res.json({ releases: result });
 });
 
+app.post('/webhook', async (req, res) => {
+  console.log('Webhook received:', req.body);
+  const data = req.body;
+
+  res.status(200).send('Webhook received');
+
+  await client.sendWorkflowEvent({
+    event: {
+      name: createReleaseEvent.name,
+      input: {
+        repository: data.repository.full_name,
+        branch: data.ref.split('/').pop() || '',
+        defaultBranch: data.repository.default_branch,
+      },
+    },
+    workflow: {
+      workflowId: handleReleaseWorkflowId,
+      runId,
+    },
+  });
+});
+
 // Start the server
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);

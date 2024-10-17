@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { githubService } from '@restackio/integrations-github';
 import { githubTaskQueue } from '@restackio/integrations-github/taskQueue';
+import { openaiService } from '@restackio/integrations-openai';
 
 import { client } from './client.js';
 import { workflowSendEvent } from './functions/index.js';
@@ -26,6 +27,10 @@ export async function services() {
         options: {
           rateLimit: 100,
         },
+      }),
+      openaiService({
+        // @ts-ignore
+        client,
       }),
     ]);
     console.log('Services running successfully.');
