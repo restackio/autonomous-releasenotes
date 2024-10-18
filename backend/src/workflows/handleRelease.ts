@@ -92,6 +92,7 @@ export async function handleReleaseWorkflow() {
         tagName,
         releaseName: `Release ${tagName}`,
         branch,
+        isDraft: false,
       });
 
       log.info('Release created', { releaseUrl: release.html_url });
