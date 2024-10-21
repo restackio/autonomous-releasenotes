@@ -15,4 +15,5 @@ export type CreateReleaseEvent = {
   id: number;
 };
 
-export const createReleaseEvent = defineEvent('createRelease');
+export const createReleaseEvent =
+  defineEvent<CreateReleaseEvent>('createRelease');

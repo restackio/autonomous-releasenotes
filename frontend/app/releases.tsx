@@ -1,4 +1,4 @@
-import { publishRelease } from "./utils/publishRelease";
+import { publishRelease } from "./utils/releases";
 
 type Release = {
   id: string;

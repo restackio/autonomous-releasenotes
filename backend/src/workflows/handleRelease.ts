@@ -96,6 +96,8 @@ export async function handleReleaseWorkflow() {
       });
 
       log.info('Release created', { releaseUrl: release.html_url });
+
+      return release;
     },
   );
 

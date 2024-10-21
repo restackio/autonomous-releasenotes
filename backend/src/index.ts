@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-import { services } from './services.js';
 import { client } from './client.js';
 import { taskQueue } from './taskqueue.js';
 
@@ -24,21 +23,21 @@ app.get('/', (_, res) => {
 let handleReleaseWorkflowId: string = 'handleRelease';
 let runId: string = '';
 
-app.post('/release', async (req, res) => {
-  const data = req.body;
+app.get('/releases/:owner/:repo', async (req, res) => {
+  const { owner, repo } = req.params;
 
-  const release = await client.sendWorkflowEvent({
-    event: {
-      name: createReleaseEvent.name,
-      input: { ...data },
-    },
-    workflow: {
-      workflowId: handleReleaseWorkflowId,
-      runId,
-    },
+  const workflowId = `${Date.now()}-getReleases`;
+
+  const runId = await client.scheduleWorkflow({
+    workflowName: 'getReleasesWorkflow',
+    workflowId,
+    input: { owner, repo },
+    taskQueue,
   });
 
-  res.json({ release });
+  const result = await client.getWorkflowResult({ workflowId, runId });
+
+  res.json({ releases: result });
 });
 
 app.put('/publish/:owner/:repo/:id', async (req, res) => {
@@ -56,23 +55,6 @@ app.put('/publish/:owner/:repo/:id', async (req, res) => {
   });
 
   res.json({ release: publishedRelease });
-});
-
-app.get('/releases/:owner/:repo', async (req, res) => {
-  const { owner, repo } = req.params;
-
-  const workflowId = `${Date.now()}-getReleases`;
-
-  const runId = await client.scheduleWorkflow({
-    workflowName: 'getReleasesWorkflow',
-    workflowId,
-    input: { owner, repo },
-    taskQueue,
-  });
-
-  const result = await client.getWorkflowResult({ workflowId, runId });
-
-  res.json({ releases: result });
 });
 
 app.post('/webhook', async (req, res) => {
@@ -100,10 +82,6 @@ app.post('/webhook', async (req, res) => {
 // Start the server
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-
-  services().catch((err) => {
-    console.error('Error in services:', err);
-  });
 
   try {
     runId = await client.scheduleWorkflow({
