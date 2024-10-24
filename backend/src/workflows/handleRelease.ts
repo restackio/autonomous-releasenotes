@@ -8,7 +8,7 @@ import * as openaiFunctions from '@restackio/integrations-openai/functions';
 import {
   NextTagName,
   nextTagNameJsonSchema,
-} from '../schemas/tagNameSchema.js';
+} from '../functions/schemas/tagNameSchema.js';
 
 import {
   publishReleaseEvent,
