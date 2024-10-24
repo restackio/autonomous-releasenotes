@@ -23,53 +23,48 @@ Once the express server is booted the workflow `handleReleaseWorkflow` will be s
    npm install
    ```
 
-2. Set up environment variables:
+2. Install smee-client for tunneling webhooks
+
+   ```
+   npm install -g smee-client
+   ```
+
+3. Set up environment variables:
    Create a `.env` file in the root of the backend folder and add your GitHub authentication token:
 
    ```
    GITHUB_AUTH_TOKEN=your_github_token_here
+   OPENAI_API_KEY=your_open_ai_token
    ```
 
-3. Build the TypeScript code:
+4. Build the TypeScript code:
 
    ```
    npm run build
    ```
 
-4. Start Restack AI:
+5. Start Restack AI:
 
    ```
    docker run -d --pull always --name studio -p 5233:5233 -p 6233:6233 -p 7233:7233 ghcr.io/restackio/engine:main
    ```
 
-5. Start the server:
+6. Start restack services:
+
    ```
-   npm start
+   npm run start:services
+   ```
+
+7. Start the server:
+   ```
+   npm run start:server
+   ```
+8. Tunnel your localhost to the internet
+   ```
+   npm run tunnel
    ```
 
 ## API Endpoints
-
-### `POST /release`
-
-- **Request body:**
-  ```json
-  {
-    "owner": "username",
-    "repo": "repo",
-    "tagName": "v1.0.0",
-    "releaseName": "Release 1.0.0",
-    "releaseBody": "Description of the release"
-  }
-  ```
-- **Response:** JSON object with a message confirming successful release creation.
-
-### `PUT /publish/:owner/:repo/:id`
-
-- **Path parameters:**
-  - `owner`: GitHub username or organization name.
-  - `repo`: Repository name.
-  - `id`: Release ID to be published.
-- **Response:** JSON object with a message confirming successful release publication.
 
 ### `GET /releases/:owner/:repo`
 
@@ -77,6 +72,28 @@ Once the express server is booted the workflow `handleReleaseWorkflow` will be s
   - `owner`: GitHub username or organization name.
   - `repo`: Repository name.
 - **Response:** JSON object containing a list of releases for the specified repository.
+
+### `PUT /publish/:owner/:repo/:id`
+
+- **Path parameters:**
+  - `owner`: GitHub username or organization name.
+  - `repo`: Repository name.
+  - `id`: Release ID to be published.
+- **Response:** JSON object with the published release.
+
+### `POST /webhook`
+
+- **Request body:**
+  ```json
+  {
+    "repository": {
+      "full_name": "username/repo",
+      "default_branch": "main"
+    },
+    "ref": "refs/heads/branch"
+  }
+  ```
+- **Response:** A message confirming the webhook was received.
 
 ## Docker Support
 
