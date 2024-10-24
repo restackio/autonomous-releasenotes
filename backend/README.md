@@ -49,17 +49,11 @@ Once the express server is booted the workflow `handleReleaseWorkflow` will be s
    docker run -d --pull always --name studio -p 5233:5233 -p 6233:6233 -p 7233:7233 ghcr.io/restackio/engine:main
    ```
 
-6. Start restack services:
-
-   ```
-   npm run start:services
-   ```
-
-7. Start the server:
+6. Start the server:
    ```
    npm run start:server
    ```
-8. Tunnel your localhost to the internet
+7. Tunnel your localhost to the internet
    ```
    npm run tunnel
    ```

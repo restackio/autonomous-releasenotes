@@ -38,7 +38,3 @@ export async function services() {
     console.error('Failed to run worker', e);
   }
 }
-
-services().catch((err) => {
-  console.error('Error in services:', err);
-});

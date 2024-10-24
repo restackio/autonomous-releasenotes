@@ -7,6 +7,7 @@ import { taskQueue } from './taskqueue.js';
 
 import { publishReleaseEvent } from './events/publishRelease.js';
 import { createReleaseEvent } from './events/createRelease.js';
+import { services } from './services.js';
 
 dotenv.config();
 
@@ -82,6 +83,10 @@ app.post('/webhook', async (req, res) => {
 // Start the server
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
+
+  services().catch((err) => {
+    console.error('Error in services:', err);
+  });
 
   try {
     runId = await client.scheduleWorkflow({

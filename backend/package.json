@@ -5,7 +5,6 @@
   "scripts": {
     "build": "tsc",
     "start:server": "node dist/index.js",
-    "start:services": "node dist/services.js",
     "tunnel": "smee -u https://smee.io/lpjo7j2qG8GbnZq -t http://localhost:8000/webhook"
   },
   "type": "module",
