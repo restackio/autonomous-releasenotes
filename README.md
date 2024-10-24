@@ -15,4 +15,4 @@ This frontend application integrates with a backend Express server located at `/
 - [Backend README](./backend/README.md)
 
 ## Backend Flow 
-![diagram](https://github.com/user-attachments/assets/d3e0e5b8-6ed4-4e1b-bb40-34487823e930)
+![graphic](https://github.com/user-attachments/assets/5ec5b722-cc5c-4b1f-8fc6-ffa07b4e142a)
